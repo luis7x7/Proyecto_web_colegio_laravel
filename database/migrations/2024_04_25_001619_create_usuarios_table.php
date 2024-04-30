@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('email');
             $table->string('password');
-            $table->unsignedBigInteger('rol_id')->unique(); // Cambiado a unsignedBigInteger para ID de rol
+            $table->unsignedBigInteger('rol_id'); // Cambiado a unsignedBigInteger para ID de rol
             $table->string('imagen_usuario');
             $table->timestamps();
 

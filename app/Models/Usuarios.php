@@ -11,11 +11,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Usuarios extends Model
 {
-    use HasFactory;
-
+    use HasApiTokens, HasFactory, Notifiable;
     protected $table = "usuarios";
 
     protected $fillable = [
@@ -25,7 +26,14 @@ class Usuarios extends Model
         'rol_id',
         'imagen_usuario'
     ];
-
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
     public function rol()
     {
         return $this->belongsTo(Roles::class);
@@ -46,33 +54,4 @@ class Usuarios extends Model
         return $this->hasMany('App\Models\Comentarios');
         //return $this->belongsTo('App\Models\Publicacion', 'publicacion_id', 'id');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

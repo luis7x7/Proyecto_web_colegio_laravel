@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UsuariosController extends Controller
@@ -31,55 +33,7 @@ class UsuariosController extends Controller
         return response()->json($data, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required|max:50',
-            'email' => 'required|max:50',
-            'password' => 'required|max:50',
-            'rol_id' => 'required|integer',
-            'imagen_usuario' => 'required|max:255', // Assuming max length for image path
-        ]);
 
-        if ($validator->fails()) {
-            $data = [
-                'message' => 'Error en la validación del usuario',
-                'errors' => $validator->errors(),
-                'status' => 400
-            ];
-            return response()->json($data, 400);
-        }
-
-        $usuarios = Usuarios::create([
-            'nombre' => $request->nombre,
-            'email' => $request->email,
-            'password' => $request->password,
-            'rol_id' => $request->rol_id,
-            'imagen_usuario' => $request->imagen_usuario,
-            
-        ]);
-
-        if (!$usuarios) {
-            $data = [
-                'message' => 'Error al crear el usuario',
-                'status' => 500
-            ];
-            return response()->json($data, 500);
-        }
-
-        $data = [
-            'message' => $usuarios,
-            'status' => 201
-        ];
-        return response()->json($data, 201);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $usuarios = Usuarios::find($id);
@@ -109,11 +63,19 @@ class UsuariosController extends Controller
             return response()->json($data, 400);
         }
 
+        // Guardar imagen si se proporciona
+        if ($request->hasFile('imagen_usuario')) {
+            $imagen = $request->file('imagen_usuario')->store('public/images');
+            $imagenUrl = basename($imagen);
+        } else {
+            $imagenUrl = 'default_user_image.jpg';
+        }
+
         $usuarios->nombre = $request->nombre;
         $usuarios->email = $request->email;
         $usuarios->password = $request->password;
         $usuarios->rol_id = $request->rol_id;
-        $usuarios->imagen_usuario = $request->imagen_usuario;
+        $usuarios->imagen_usuario = $imagenUrl;
         $usuarios->save();
 
         $data = [
@@ -146,4 +108,9 @@ class UsuariosController extends Controller
         ];
         return response()->json($data, 200);
     }
+
+    //login  
+
+
+
 }
