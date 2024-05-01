@@ -36,7 +36,6 @@ class LoginRegisterController extends Controller
         } else {
             $imagenUrl = 'default_user_image.jpg';
         }
-
         $usuarios = Usuarios::create([
             'nombre' => $request->nombre,
             'email' => $request->email,
