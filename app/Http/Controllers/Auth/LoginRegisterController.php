@@ -17,7 +17,7 @@ class LoginRegisterController extends Controller
             'email' => 'required|max:50',
             'password' => 'required|max:20|string|min:8',
             'rol_id' => 'required|integer',
-            'imagen_usuario' => 'required|max:255', // Assuming max length for image path
+            'imagen_usuario' => 'max:255', // Assuming max length for image path
         ]);
 
         if ($validator->fails()) {
@@ -31,7 +31,7 @@ class LoginRegisterController extends Controller
 
         // Guardar imagen si se proporciona
         if ($request->hasFile('imagen_usuario')) {
-            $imagen = $request->file('imagen_usuario')->store('public/images');
+            $imagen = $request->file('imagen_usuario')->store('public/images/usuarios');
             $imagenUrl = basename($imagen);
         } else {
             $imagenUrl = 'default_user_image.jpg';

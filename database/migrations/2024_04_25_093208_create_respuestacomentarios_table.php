@@ -20,7 +20,7 @@ return new class extends Migration
             
 
             $table->foreign('usuario_id')->references('id')->on('usuarios');
-            $table->foreign('comentario_id')->references('id')->on('comentarios')->onDelete('cascade');
+            $table->foreign('comentario_id')->references('id')->on('comentarios');
             $table->timestamps();
         });
     }

@@ -37,8 +37,7 @@ class Usuarios extends Model
     public function rol()
     {
         return $this->belongsTo(Roles::class);
-        //return $this->hasOne(Roles::class);
-        // return $this->belongsTo('App\Models\Roles', 'rol_id', 'id');
+        
     }
 
     //relacion de uno a muchos

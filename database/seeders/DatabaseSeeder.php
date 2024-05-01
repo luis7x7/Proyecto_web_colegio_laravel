@@ -2,22 +2,130 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Categorias;
+use App\Models\Roles;
+use App\Models\Tema;
+
+use App\Models\Usuarios;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
-        // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        //temas
+        $temas = [
+            'Ejemplos',
+            'Educación',
+            'Vida Social',
+            'Tecnología',
+            'Deportes',
+            'Cultura',
+            'Salud',
+            'Entretenimiento',
+            'Política',
+            'Negocios',
+            'Viajes',
+            'Medio Ambiente',
+            'Arte',
+            'Ciencia',
+            'Moda',
+            'Historia',
+            'Religión',
+            'Alimentación',
+            'Música',
+            'Literatura',
+        ];
+
+        foreach ($temas as $tema) {
+            Tema::create([
+                'nombre' => $tema,
+            ]);
+        }
+        //categorias
+
+        Categorias::Create([
+            'nombre' => 'Noticias',
         ]);
+        Categorias::Create([
+            'nombre' => 'Avisos',
+        ]);
+        Categorias::Create([
+            'nombre' => 'Eventos',
+        ]);
+        //roles
+        Roles::create([
+            'nombre' => 'Personal Administrativo',
+        ]);
+
+        Roles::create([
+            'nombre' => 'Estudiante',
+        ]);
+        Roles::create([
+            'nombre' => 'Profesor',
+        ]);
+
+        Roles::create([
+            'nombre' => 'Obrero',
+        ]);
+
+
+        // $usuarios = [
+        //     [
+        //         'nombre' => 'luis',
+        //         'email' => 'luis@gmail.com',
+        //         'password' => 'luis12345',
+        //         'rol_id' => 1,
+        //         'imagen_usuario' => 'storage/images/usuarios/default_user_image.jpg',
+        //     ],
+        //     [
+        //         'nombre' => 'huasaca',
+        //         'email' => 'huasaca@gmail.com',
+        //         'password' => 'luis12345',
+        //         'rol_id' => 1,
+        //         'imagen_usuario' => 'storage/images/usuarios/huasaca.jpg',
+        //     ],
+        //     [
+        //         'nombre' => 'pinillos',
+        //         'email' => 'pinillos@gmail.com',
+        //         'password' => 'pinillos12345',
+        //         'rol_id' => 1,
+        //         'imagen_usuario' => 'storage/images/usuarios/pinillos.jpg',
+        //     ],
+        //     [
+        //         'nombre' => 'boris',
+        //         'email' => 'boris@gmail.com',
+        //         'password' => 'boris12345',
+        //         'rol_id' => 3,
+        //         'imagen_usuario' => 'storage/images/usuarios/boris.jpg',
+        //     ],
+        //     [
+        //         'nombre' => 'hualca',
+        //         'email' => 'hualca@gmail.com',
+        //         'password' => 'hualca12345',
+        //         'rol_id' => 3,
+        //         'imagen_usuario' => 'storage/images/usuarios/hualca.jpg',
+        //     ],
+        // ];
+
+        // foreach ($usuarios as $usuarioData) {
+        //     Usuarios::create([
+        //         'nombre' => $usuarioData['nombre'],
+        //         'email' => $usuarioData['email'],
+        //         'password' => Hash::make('password'),
+        //         'rol_id' => $usuarioData['rol_id'],
+        //         'imagen_usuario' => $usuarioData['imagen_usuario'],
+        //     ]);
+        // }
+
+        //Usuarios
+
+
     }
 }

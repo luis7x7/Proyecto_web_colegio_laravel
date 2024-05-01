@@ -26,9 +26,15 @@ class UsuariosController extends Controller
             return response()->json($data, 404);
         }
 
+
+        foreach ($usuarios as $usuario) {
+            $usuario->imagen_usuario = asset('storage/images/usuarios/' . $usuario->imagen_usuario);
+        }
+
         $data = [
-            'message' => $usuarios,
-            'status' => 200
+            'message' => "usuarios encontrados",
+            'data' => $usuarios,
+            'status' => 200,
         ];
         return response()->json($data, 200);
     }
@@ -47,9 +53,9 @@ class UsuariosController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required|max:50',
-            'email' => 'required|max:50',
-            'password' => 'required|max:50',
+            'nombre' => 'required|max:50|min:5:',
+            'email' => 'required|max:50|',
+            'password' => 'required|max:50,,',
             'rol_id' => 'required|integer',
             'imagen_usuario' => 'required|max:255', // Assuming max length for image path
         ]);

@@ -24,9 +24,9 @@ return new class extends Migration
             $table->timestamps();
 
             // Claves externas
-            $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
-            $table->foreign('tema_id')->references('id')->on('temas')->onDelete('cascade');
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('categoria_id')->references('id')->on('categorias');
+            $table->foreign('tema_id')->references('id')->on('temas');
+            $table->foreign('usuario_id')->references('id')->on('usuarios');
         });
     }
 

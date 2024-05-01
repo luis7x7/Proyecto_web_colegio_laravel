@@ -17,16 +17,13 @@ return new class extends Migration
             $table->timestamp('fecha_comentario');
             $table->unsignedBigInteger('usuario_id');
             $table->unsignedBigInteger('publicacion_id');
-            //$table->unsignedBigInteger('comentario_padre_id')->nullable();
+           
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('usuario_id')->references('id')->on('usuarios');
 
 
-            $table->foreign('publicacion_id')->references('id')->on('publicaciones')->onDelete('cascade');
-
-
-            //$table->foreign('comentario_padre_id')->references('id')->on('comentarios')->onDelete('cascade');
+            $table->foreign('publicacion_id')->references('id')->on('publicaciones');
 
 
            
@@ -41,6 +38,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+      
         Schema::dropIfExists('comentarios');
+
+     
     }
 };

@@ -17,28 +17,7 @@ class Comentarios extends Model
         
     ];
 
-    //relacion inversa
-    /* public function usuario()
-    {
-        return $this->belongsTo('App\Models\Usuarios');
-        //return $this->belongsTo('App\Models\Publicacion', 'publicacion_id', 'id');
-    }
-
-    public function respuestas()
-    {
-        return $this->hasMany('App\Models\Comentarios');
-    }
-
-    public function comentarioPadre()
-    {
-        return $this->belongsTo('App\Models\Comentarios');
-    }
-
-
-    public function publicacion()
-    {
-        return $this->belongsTo('App\Models\Publicaciones');
-    }*/
+  
 
     public function usuario()
     {

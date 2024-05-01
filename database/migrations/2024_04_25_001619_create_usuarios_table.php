@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('email');
             $table->string('password');
-            $table->unsignedBigInteger('rol_id'); // Cambiado a unsignedBigInteger para ID de rol
+            $table->unsignedBigInteger('rol_id');
             $table->string('imagen_usuario');
             $table->timestamps();
 
-            // Clave externa para rol_id
-            $table->foreign('rol_id')->references('id')->on('roles')->onDelete('cascade'); // Asumiendo que existe una tabla de roles
+
+            $table->foreign('rol_id')->references('id')->on('roles');
         });
     }
 
