@@ -140,21 +140,21 @@ class DatabaseSeeder extends Seeder
                 'tema_id' => '1',
                 'usuario_id' => '1',
             ],
-            
+
         ];
 
         foreach ($publicaciones as $publicacionesData) {
             Publicaciones::create([
                 'titulo' => $publicacionesData['titulo'],
                 'Sub_tema' => $publicacionesData['Sub_tema'],
+                'contenido' => $publicacionesData['contenido'],
                 'imagen' => $publicacionesData['imagen'],
-                'fecha_publicacion' => Carbon::now('fecha_publicacion'),
+                'fecha_publicacion' => Carbon::now('America/Lima'),
                 'categoria_id' => $publicacionesData['categoria_id'],
                 'tema_id' => $publicacionesData['tema_id'],
                 'usuario_id' => $publicacionesData['usuario_id'],
-                
-            ]);
 
+            ]);
         }
 
         //comentarios
@@ -167,19 +167,25 @@ class DatabaseSeeder extends Seeder
                 'comentario_padre_id' => '',
             ],
 
+            [
+                'contenido'  => 'Todo se acabwwa',
+                'fecha_comentario' => '',
+                'usuario_id' => '1',
+                'publicacion_id' => '1',
+                'comentario_padre_id' => '1',
+            ],
         ];
 
         foreach ($comentarios as $comentariosData) {
             Comentarios::create([
                 'contenido' => $comentariosData['contenido'],
-                'fecha_comentario' => Carbon::now('fecha_comentario'),
+                'fecha_comentario' => Carbon::now('America/Lima'),
                 'usuario_id' => $comentariosData['usuario_id'],
                 'publicacion_id' => $comentariosData['publicacion_id'],
-                'comentario_padre_id' => $comentariosData['comentario_padre_id'],
                 
+
 
             ]);
         }
-
     }
 }
