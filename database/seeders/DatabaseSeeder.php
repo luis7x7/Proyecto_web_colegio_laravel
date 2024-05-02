@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
             [
                 'nombre' => 'huasaca',
                 'email' => 'huasaca@gmail.com',
-                'password' => 'luis12345',
+                'password' => 'huasaca12345',
                 'rol_id' => 1,
                 'imagen_usuario' => 'huasaca.jpeg',
             ],
