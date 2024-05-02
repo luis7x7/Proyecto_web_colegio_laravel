@@ -83,11 +83,11 @@ class LoginRegisterController extends Controller
         $user = Usuarios::where('email', $request->email)->first();
 
 
-        if (password_verify($request->password, $user->password)) {
+        if (!password_verify($request->password, $user->password)) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Credenciales Invalidas'
-            ], 401);
+            ], 201);
         }
 
         $data['token'] = $user->createToken($request->email)->plainTextToken;

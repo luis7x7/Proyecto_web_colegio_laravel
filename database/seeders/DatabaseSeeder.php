@@ -118,7 +118,7 @@ class DatabaseSeeder extends Seeder
             Usuarios::create([
                 'nombre' => $usuarioData['nombre'],
                 'email' => $usuarioData['email'],
-                'password' => Hash::make('password'),
+                'password' => Hash::make($usuarioData['password']),
                 'rol_id' => $usuarioData['rol_id'],
                 'imagen_usuario' => $usuarioData['imagen_usuario'],
             ]);
