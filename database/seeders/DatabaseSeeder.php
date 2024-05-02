@@ -134,7 +134,7 @@ class DatabaseSeeder extends Seeder
                 'titulo' => 'Amor de la mi vida',
                 'Sub_tema' => 'Romance',
                 'contenido' => 'Todo sobre el amor',
-                'imagen' => 'xxx',
+                'imagen' => 'xxx.porhub',
                 'fecha_publicacion' => '',
                 'categoria_id' => '1',
                 'tema_id' => '1',
