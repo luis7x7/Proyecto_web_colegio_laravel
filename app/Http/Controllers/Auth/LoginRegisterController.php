@@ -82,7 +82,7 @@ class LoginRegisterController extends Controller
         // Check email exist
         $user = Usuarios::where('email', $request->email)->first();
 
-        // Check password
+
         if (password_verify($request->password, $user->password)) {
             return response()->json([
                 'status' => 'failed',
