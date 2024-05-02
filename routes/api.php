@@ -10,9 +10,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\PublicacionesController;
 use App\Http\Controllers\ComentariosController;
-
-
-
+use App\Http\Controllers\RespuestacomentarioController;
 
 //CATEGORIA
 Route::get('/categorias', [CategoriasController::class, 'index']);
@@ -52,9 +50,14 @@ Route::get('/publicaciones/{id}', [PublicacionesController::class, 'show']);
 
 //respuest comentario
 
-Route::get('/respuestacomentario', [ComentariosController::class, 'index']);
+Route::get('/respuestacomentario', [RespuestacomentarioController::class, 'index']);
 
-Route::get('/respuestacomentario/{id}', [ComentariosController::class, 'show']);
+Route::get('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'show']);
+
+// comentario
+Route::get('/comentarios', [ComentariosController::class, 'index']);
+
+Route::get('/comentarios/{id}', [ComentariosController::class, 'show']);
 
 
 
@@ -134,11 +137,22 @@ Route::middleware('auth:sanctum')->group(function () {
 
      //respuesta_comentarios
 
-     Route::post('/respuestacomentario', [ComentariosController::class, 'store']);
+     Route::post('/respuestacomentario', [RespuestacomentarioController::class, 'store']);
 
-     Route::put('/respuestacomentario/{id}', [ComentariosController::class, 'update']);
+     Route::put('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'update']);
 
-     Route::delete('/respuestacomentario/{id}', [ComentariosController::class, 'destroy']);
+     Route::delete('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'destroy']);
 
-     Route::patch('/respuestacomentario/{id}', [ComentariosController::class, 'updatepartial']);
+     Route::patch('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'updatepartial']);
+
+
+     //comentarios
+
+     Route::post('/comentarios', [ComentariosController::class, 'store']);
+
+     Route::put('/comentarios/{id}', [ComentariosController::class, 'update']);
+
+     Route::delete('/comentarios/{id}', [ComentariosController::class, 'destroy']);
+
+     Route::patch('/comentarios/{id}', [ComentariosController::class, 'updatepartial']);
 });

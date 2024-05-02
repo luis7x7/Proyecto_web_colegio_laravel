@@ -17,7 +17,7 @@ class LoginRegisterController extends Controller
             'email' => 'required|max:50',
             'password' => 'required|max:20|string|min:8',
             'rol_id' => 'required|integer',
-            'imagen_usuario' => 'max:255', // Assuming max length for image path
+            'imagen_usuario' => 'max:512', // Assuming max length for image path
         ]);
 
         if ($validator->fails()) {

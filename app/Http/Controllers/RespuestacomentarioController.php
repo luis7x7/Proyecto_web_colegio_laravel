@@ -9,9 +9,9 @@ use Illuminate\Routing\Controller;
 
 class RespuestacomentarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
+
+
     public function index()
     {
         $respuestacomentario = Respuestacomentario::all();
@@ -45,11 +45,14 @@ class RespuestacomentarioController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'contenido' => 'required',
+            'contenido' => ['required', 'regex:/^[A-Z]/'],
             'fecha_comentario' => 'required|date',
             'usuario_id' => 'required|integer',
-            'publicacion_id' => 'required|integer',
+            'comentario_id' => 'required|integer',
 
+        ], [
+            'contenido.required' => 'El campo contenido es obligatorio.',
+            'contenido.regex' => 'El campo contenido debe comenzar con una letra mayúscula.',
 
         ]);
 
@@ -67,7 +70,7 @@ class RespuestacomentarioController extends Controller
             'contenido' => $request->contenido,
             'fecha_comentario' => $request->fecha_comentario,
             'usuario_id' => $request->usuario_id,
-            'publicacion_id' => $request->publicacion_id,
+            'comentario_id' => $request->comentario_id,
 
 
         ]);
@@ -115,7 +118,7 @@ class RespuestacomentarioController extends Controller
             'contenido' => 'required',
             'fecha_comentario' => 'required|date',
             'usuario_id' => 'required|integer',
-            'publicacion_id' => 'required|integer',
+            'comentario_id' => 'required|integer',
 
         ]);
 

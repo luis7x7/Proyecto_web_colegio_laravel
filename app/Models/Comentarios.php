@@ -9,15 +9,16 @@ class Comentarios extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'contenido',
         'fecha_comentario',
         'usuario_id',
         'publicacion_id',
-        
+
     ];
 
-  
+
 
     public function usuario()
     {
@@ -29,8 +30,12 @@ class Comentarios extends Model
         return $this->belongsTo(Publicaciones::class);
     }
 
-    public function respuestas()
+     public function respuestas()
     {
-        return $this->hasMany(RespuestaComentario::class);
+        return $this->hasMany(Comentarios::class, 'comentario_padre_id');
+        
     }
+
+    
+    
 }

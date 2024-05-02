@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Respuestacomentario extends Model
 {
+
+
+
     use HasFactory;
     protected $fillable = [
         'contenido',
@@ -20,8 +23,13 @@ class Respuestacomentario extends Model
         return $this->belongsTo(User::class);
     }
 
+
+
+
+
+
     public function comentario()
     {
-        return $this->belongsTo(Comentarios::class);
+      //  return $this->belongsTo(Comentarios::class);
     }
 }

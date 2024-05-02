@@ -9,9 +9,7 @@ use Illuminate\Routing\Controller;
 
 class ComentariosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $comentarios = Comentarios::all();
@@ -37,12 +35,14 @@ class ComentariosController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'contenido' => 'required',
+            'contenido' => ['required', 'regex:/^[A-Z]/'],
             'fecha_comentario' => 'required|date',
             'usuario_id' => 'required|integer',
             'publicacion_id' => 'required|integer',
-            'comentario_padre_id' => 'required|integer',
-
+            'comentario_padre_id' => 'nullable|integer|exists:comentarios,id' // Validación para el comentario padre
+        ], [
+            'contenido.required' => 'El campo contenido es obligatorio.',
+            'contenido.regex' => 'El campo contenido debe comenzar con una letra mayúscula.',
         ]);
 
         if ($validator->fails()) {
@@ -54,19 +54,20 @@ class ComentariosController extends Controller
             return response()->json($data, 400);
         }
 
-
-        $comentarios = Comentarios::create([
+        $comentarioData = [
             'contenido' => $request->contenido,
             'fecha_comentario' => $request->fecha_comentario,
             'usuario_id' => $request->usuario_id,
             'publicacion_id' => $request->publicacion_id,
-            'comentario_padre_id' => $request->comentario_padre_id,
+            'comentario_padre_id' => $request->comentario_padre_id // Guardar el ID del comentario padre
+        ];
 
-        ]);
+        // Crear el comentario
+        $comentario = Comentarios::create($comentarioData);
 
         $data = [
             'message' => 'Publicación creada exitosamente',
-            'publicacion' => $comentarios,
+            'publicacion' => $comentario,
             'status' => 201
         ];
         return response()->json($data, 201);
@@ -92,7 +93,7 @@ class ComentariosController extends Controller
             'fecha_comentario' => 'required|date',
             'usuario_id' => 'required|integer',
             'publicacion_id' => 'required|integer',
-            'comentario_padre_id' => 'required|integer',
+
         ]);
 
         if ($validator->fails()) {

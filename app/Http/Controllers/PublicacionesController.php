@@ -37,14 +37,33 @@ class PublicacionesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'titulo' => 'required|max:255',
-            'Sub_tema' => 'required|max:255',
-            'contenido' => 'required',
+            'titulo' => ['required', 'max:255', 'regex:/^[A-Z].*/'],
+            'Sub_tema' => ['required', 'max:255', 'regex:/^[A-Z]/'],
+            'contenido' => ['required', 'regex:/^[A-Z]/'],
             'imagen' => 'required|max:255',
             'fecha_publicacion' => 'required|date',
             'categoria_id' => 'required|integer',
             'tema_id' => 'required|integer',
             'usuario_id' => 'required|integer',
+
+        ], [
+
+            'titulo.required' => 'El campo título es obligatorio.',
+            'titulo.max' => 'El título no debe tener más de :max caracteres.',
+            'titulo.regex' => 'El título debe comenzar con una letra mayúscula.',
+
+            'Sub_tema.required' => 'El campo Sub_tema es obligatorio.',
+            'Sub_tema.max' => 'El Sub_tema no debe tener más de :max caracteres.',
+            'Sub_tema.regex' => 'El Sub_tema debe comenzar con una letra mayúscula.',
+
+            'contenido.required' => 'El campo contenido es obligatorio.',
+            'contenido.regex' => 'El campo contenido debe comenzar con una letra mayúscula.',
+
+
+
+
+
+
         ]);
 
         if ($validator->fails()) {

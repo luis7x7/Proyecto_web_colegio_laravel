@@ -53,11 +53,32 @@ class UsuariosController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required|max:50|min:5:',
+            /*'nombre' => 'required|max:50|min:5:',
             'email' => 'required|max:50|',
             'password' => 'required|max:50,,',
             'rol_id' => 'required|integer',
-            'imagen_usuario' => 'required|max:255', // Assuming max length for image path
+            'imagen_usuario' => 'required|max:255', // Assuming max length for image path*/
+            'nombre' => ['required', 'regex:/^[A-Z][a-zA-Z0-9]{1,19}$/'],
+            'email' => ['required', 'regex:/^(?=.*[a-zA-Z0-9])((?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*[@\.])|(?=.*\d)(?=.*[@\.]))[a-zA-Z0-9@\.]{1,50}$/', 'max:50'],
+            'password' => ['required', 'regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{1,10}$/', 'max:10'],
+            'imagen_usuario' => 'required|max:512|mimes:jpeg,png',
+        ],[
+
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'nombre.regex' => 'El nombre debe comenzar con mayúscula, contener solo letras y números, y tener un máximo de 20 caracteres.',
+
+            'email.required' => 'El campo email es obligatorio.',
+            'email.regex' => 'El formato del email no es válido. Por favor, introduce un correo electrónico de Gmail o Hotmail.',
+            'email.max' => 'El correo electrónico no debe tener más de :max caracteres.',
+
+            'password.required' => 'El campo contraseña es obligatorio.',
+            'password.regex' => 'La contraseña debe tener al menos una letra, un número, un carácter especial y un máximo de 10 caracteres.',
+            'password.max' => 'La contraseña no debe tener más de :max caracteres.',
+
+            'imagen_usuario.required' => 'El campo imagen es obligatorio.',
+            'imagen_usuario.max' => 'La URL de la imagen no debe tener más de 50:max caracteres.',
+            'imagen_usuario.mimes' => 'La imagen de usuario debe ser en formato JPG o PNG.',
+
         ]);
 
         if ($validator->fails()) {
