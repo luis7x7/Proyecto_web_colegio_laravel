@@ -48,8 +48,6 @@ Route::get('/publicaciones', [PublicacionesController::class, 'index']);
 Route::get('/publicaciones/{id}', [PublicacionesController::class, 'show']);
 
 
-//respuest comentario
-
 
 
 // comentario
@@ -133,9 +131,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
      Route::patch('/publicaciones/{id}', [PublicacionesController::class, 'updatepartial']);
 
-     //respuesta_comentarios
-
-     
 
 
      //comentarios

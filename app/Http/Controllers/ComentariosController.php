@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comentarios;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ComentariosController extends Controller
+
 {
 
     public function index()
     {
-        $comentarios = Comentarios::all();
+        $comentarios = DB::table('comentarios')->get();
+        $comentariosCount = $comentarios->count();
 
-        if ($comentarios->isEmpty()) {
+        if ($comentariosCount === 0) {
             $data = [
                 'message' => 'No hay ninguna publicación',
                 'status' => 404
@@ -23,9 +27,12 @@ class ComentariosController extends Controller
         }
 
         $data = [
-            'message' => $comentarios,
-            'status' => 200
+            'message' => 'Listado de comentarios',
+            'status' => 200,
+            'total_comentarios' => $comentariosCount,
+            'comentarios' => $comentarios
         ];
+
         return response()->json($data, 200);
     }
 
@@ -36,7 +43,6 @@ class ComentariosController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'contenido' => ['required', 'regex:/^[A-Z]/'],
-            'fecha_comentario' => 'required|date',
             'usuario_id' => 'required|integer',
             'publicacion_id' => 'required|integer',
             'comentario_padre_id' => 'nullable|integer|exists:comentarios,id' // Validación para el comentario padre
@@ -54,9 +60,11 @@ class ComentariosController extends Controller
             return response()->json($data, 400);
         }
 
+        $fecha_comentario = Carbon::now(); // Obtener la fecha y hora actuales
+
         $comentarioData = [
             'contenido' => $request->contenido,
-            'fecha_comentario' => $request->fecha_comentario,
+            'fecha_comentario' => $fecha_comentario, // Establecer la fecha y hora actuales como fecha de comentario
             'usuario_id' => $request->usuario_id,
             'publicacion_id' => $request->publicacion_id,
             'comentario_padre_id' => $request->comentario_padre_id // Guardar el ID del comentario padre
@@ -66,8 +74,8 @@ class ComentariosController extends Controller
         $comentario = Comentarios::create($comentarioData);
 
         $data = [
-            'message' => 'Publicación creada exitosamente',
-            'publicacion' => $comentario,
+            'message' => 'Comentario creado exitosamente',
+            'comentario' => $comentario,
             'status' => 201
         ];
         return response()->json($data, 201);
