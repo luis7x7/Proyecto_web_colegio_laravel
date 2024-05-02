@@ -83,7 +83,7 @@ class LoginRegisterController extends Controller
         $user = Usuarios::where('email', $request->email)->first();
 
         // Check password
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (password_verify($request->password, $user->password)) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Credenciales Invalidas'
