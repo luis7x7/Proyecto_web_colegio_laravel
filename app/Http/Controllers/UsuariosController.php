@@ -25,7 +25,7 @@ class UsuariosController extends Controller
             ];
             return response()->json($data, 404);
         }
-       
+
         foreach ($usuarios as $usuario) {
             if ($usuario->imagen_usuario) {
                 $usuario->imagen_usuario = asset('storage/images/usuarios/' . $usuario->imagen_usuario);
@@ -43,7 +43,45 @@ class UsuariosController extends Controller
         return response()->json($data, 200);
     }
 
+    public function show($id)
+    {
+        $Usuario = Usuarios::find($id);
 
+        if (!$Usuario) {
+            $data = [
+                'message' => 'usuario no encontrado',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $data = [
+            'message' => $Usuario,
+            'status' => 200
+        ];
+        return response()->json($data, 200);
+    }
+
+
+    public function show_user_email($email)
+    {
+        $Usuario = Usuarios::where('email', $email)->first();
+
+        if (!$Usuario) {
+            $data = [
+                'message' => 'Usuario no encontrado',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $data = [
+            'message' => $Usuario,
+            'status' => 200
+        ];
+        return response()->json($data, 200);
+    }
+    
     public function update(Request $request, $id)
     {
         $usuarios = Usuarios::find($id);
@@ -66,7 +104,7 @@ class UsuariosController extends Controller
             'email' => ['required', 'regex:/^(?=.*[a-zA-Z0-9])((?=.*[a-zA-Z])(?=.*\d)|(?=.*[a-zA-Z])(?=.*[@\.])|(?=.*\d)(?=.*[@\.]))[a-zA-Z0-9@\.]{1,50}$/', 'max:50'],
             'password' => ['required', 'regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{1,10}$/', 'max:10'],
             'imagen_usuario' => 'required|max:512|mimes:jpeg,png',
-        ],[
+        ], [
 
             'nombre.required' => 'El campo nombre es obligatorio.',
             'nombre.regex' => 'El nombre debe comenzar con mayúscula, contener solo letras y números, y tener un máximo de 20 caracteres.',

@@ -39,6 +39,9 @@ Route::get('/usuarios', [UsuariosController::class, 'index']);
 
 Route::get('/usuarios/{id}', [UsuariosController::class, 'show']);
 
+Route::get('/usuarios_email/{email}', [UsuariosController::class, 'show_user_email']);
+
+
 
 
 //publicaciones
@@ -131,7 +134,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
      Route::patch('/publicaciones/{id}', [PublicacionesController::class, 'updatepartial']);
 
-    
+
 
      //comentarios
 
