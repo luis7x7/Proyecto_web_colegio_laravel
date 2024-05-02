@@ -82,17 +82,10 @@ class PublicacionesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-<<<<<<< HEAD
-            'titulo' => ['required', 'max:255', 'regex:/^[A-Z].*/'],
-            'Sub_tema' => ['required', 'max:255', 'regex:/^[A-Z]/'],
-            'contenido' => ['required', 'regex:/^[A-Z]/'],
-            'imagen' => 'required|max:255',
-=======
             'titulo' => 'required|max:255',
             'Sub_tema' => 'required|max:255',
             'contenido' => 'required',
             'imagen' => 'required',
->>>>>>> 2533ab8966f6eefbc66bca3e203fcae450d4df28
             'fecha_publicacion' => 'required|date',
             'categoria_id' => 'required|integer',
             'tema_id' => 'required|integer',
