@@ -25,10 +25,14 @@ class UsuariosController extends Controller
             ];
             return response()->json($data, 404);
         }
-
-
+       
         foreach ($usuarios as $usuario) {
-            $usuario->imagen_usuario = asset('storage/images/usuarios/' . $usuario->imagen_usuario);
+            if ($usuario->imagen_usuario) {
+                $usuario->imagen_usuario = asset('storage/images/usuarios/' . $usuario->imagen_usuario);
+            } else {
+                // Si el usuario no tiene imagen, se asigna una imagen por defecto
+                $usuario->imagen_usuario = asset('storage/default_user_image.jpg');
+            }
         }
 
         $data = [
