@@ -76,53 +76,53 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        // $usuarios = [
-        //     [
-        //         'nombre' => 'luis',
-        //         'email' => 'luis@gmail.com',
-        //         'password' => 'luis12345',
-        //         'rol_id' => 1,
-        //         'imagen_usuario' => 'storage/images/usuarios/default_user_image.jpg',
-        //     ],
-        //     [
-        //         'nombre' => 'huasaca',
-        //         'email' => 'huasaca@gmail.com',
-        //         'password' => 'luis12345',
-        //         'rol_id' => 1,
-        //         'imagen_usuario' => 'storage/images/usuarios/huasaca.jpg',
-        //     ],
-        //     [
-        //         'nombre' => 'pinillos',
-        //         'email' => 'pinillos@gmail.com',
-        //         'password' => 'pinillos12345',
-        //         'rol_id' => 1,
-        //         'imagen_usuario' => 'storage/images/usuarios/pinillos.jpg',
-        //     ],
-        //     [
-        //         'nombre' => 'boris',
-        //         'email' => 'boris@gmail.com',
-        //         'password' => 'boris12345',
-        //         'rol_id' => 3,
-        //         'imagen_usuario' => 'storage/images/usuarios/boris.jpg',
-        //     ],
-        //     [
-        //         'nombre' => 'hualca',
-        //         'email' => 'hualca@gmail.com',
-        //         'password' => 'hualca12345',
-        //         'rol_id' => 3,
-        //         'imagen_usuario' => 'storage/images/usuarios/hualca.jpg',
-        //     ],
-        // ];
+        $usuarios = [
+            [
+                'nombre' => 'luis',
+                'email' => 'luis@gmail.com',
+                'password' => 'luis12345',
+                'rol_id' => 1,
+                'imagen_usuario' => 'default_user_image.jpg',
+            ],
+            [
+                'nombre' => 'huasaca',
+                'email' => 'huasaca@gmail.com',
+                'password' => 'luis12345',
+                'rol_id' => 1,
+                'imagen_usuario' => 'huasaca.jpeg',
+            ],
+            [
+                'nombre' => 'pinillos',
+                'email' => 'pinillos@gmail.com',
+                'password' => 'pinillos12345',
+                'rol_id' => 1,
+                'imagen_usuario' => 'pinillos.jpeg',
+            ],
+            [
+                'nombre' => 'boris',
+                'email' => 'boris@gmail.com',
+                'password' => 'boris12345',
+                'rol_id' => 3,
+                'imagen_usuario' => 'boris.jpeg',
+            ],
+            [
+                'nombre' => 'hualca',
+                'email' => 'hualca@gmail.com',
+                'password' => 'hualca12345',
+                'rol_id' => 3,
+                'imagen_usuario' => 'hualca.jpeg',
+            ],
+        ];
 
-        // foreach ($usuarios as $usuarioData) {
-        //     Usuarios::create([
-        //         'nombre' => $usuarioData['nombre'],
-        //         'email' => $usuarioData['email'],
-        //         'password' => Hash::make('password'),
-        //         'rol_id' => $usuarioData['rol_id'],
-        //         'imagen_usuario' => $usuarioData['imagen_usuario'],
-        //     ]);
-        // }
+        foreach ($usuarios as $usuarioData) {
+            Usuarios::create([
+                'nombre' => $usuarioData['nombre'],
+                'email' => $usuarioData['email'],
+                'password' => Hash::make('password'),
+                'rol_id' => $usuarioData['rol_id'],
+                'imagen_usuario' => $usuarioData['imagen_usuario'],
+            ]);
+        }
 
         //Usuarios
 
