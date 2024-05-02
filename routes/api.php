@@ -48,11 +48,7 @@ Route::get('/publicaciones', [PublicacionesController::class, 'index']);
 Route::get('/publicaciones/{id}', [PublicacionesController::class, 'show']);
 
 
-//respuest comentario
 
-Route::get('/respuestacomentario', [RespuestacomentarioController::class, 'index']);
-
-Route::get('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'show']);
 
 // comentario
 Route::get('/comentarios', [ComentariosController::class, 'index']);
@@ -135,16 +131,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
      Route::patch('/publicaciones/{id}', [PublicacionesController::class, 'updatepartial']);
 
-     //respuesta_comentarios
-
-     Route::post('/respuestacomentario', [RespuestacomentarioController::class, 'store']);
-
-     Route::put('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'update']);
-
-     Route::delete('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'destroy']);
-
-     Route::patch('/respuestacomentario/{id}', [RespuestacomentarioController::class, 'updatepartial']);
-
+    
 
      //comentarios
 
