@@ -15,6 +15,7 @@ class Comentarios extends Model
         'fecha_comentario',
         'usuario_id',
         'publicacion_id',
+        'comentario_padre_id',
 
     ];
 

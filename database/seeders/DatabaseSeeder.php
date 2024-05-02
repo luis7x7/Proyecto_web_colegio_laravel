@@ -3,10 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Categorias;
+use App\Models\Comentarios;
+use App\Models\Publicaciones;
 use App\Models\Roles;
 use App\Models\Tema;
 
 use App\Models\Usuarios;
+use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -124,15 +127,59 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        //Usuarios
+        //publicaciones
 
+        $publicaciones = [
+            [
+                'titulo' => 'Amor de la mi vida',
+                'Sub_tema' => 'Romance',
+                'contenido' => 'Todo sobre el amor',
+                'imagen' => 'xxx',
+                'fecha_publicacion' => '',
+                'categoria_id' => '1',
+                'tema_id' => '1',
+                'usuario_id' => '1',
+            ],
+            
+        ];
 
+        foreach ($publicaciones as $publicacionesData) {
+            Publicaciones::create([
+                'titulo' => $publicacionesData['titulo'],
+                'Sub_tema' => $publicacionesData['Sub_tema'],
+                'imagen' => $publicacionesData['imagen'],
+                'fecha_publicacion' => Carbon::now('fecha_publicacion'),
+                'categoria_id' => $publicacionesData['categoria_id'],
+                'tema_id' => $publicacionesData['tema_id'],
+                'usuario_id' => $publicacionesData['usuario_id'],
+                
+            ]);
 
+        }
 
+        //comentarios
+        $comentarios = [
+            [
+                'contenido'  => 'Todo se acaba',
+                'fecha_comentario' => '',
+                'usuario_id' => '1',
+                'publicacion_id' => '1',
+                'comentario_padre_id' => '',
+            ],
 
+        ];
 
+        foreach ($comentarios as $comentariosData) {
+            Comentarios::create([
+                'contenido' => $comentariosData['contenido'],
+                'fecha_comentario' => Carbon::now('fecha_comentario'),
+                'usuario_id' => $comentariosData['usuario_id'],
+                'publicacion_id' => $comentariosData['publicacion_id'],
+                'comentario_padre_id' => $comentariosData['comentario_padre_id'],
+                
 
+            ]);
+        }
 
-        
     }
 }

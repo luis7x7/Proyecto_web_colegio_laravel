@@ -86,9 +86,15 @@ class LoginRegisterController extends Controller
         if (!password_verify($request->password, $user->password)) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Credenciales Invalidas'
-            ], 201);
+                'message' => 'Credenciales Invalidas',
+            ], 401);
         }
+
+        if (auth()->check()) {
+            // El usuario está autenticado
+            $password = auth()->user()->password;
+        }
+
 
         $data['token'] = $user->createToken($request->email)->plainTextToken;
         $data['user'] = $user;

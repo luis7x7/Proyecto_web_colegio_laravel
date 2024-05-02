@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Publicaciones;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
@@ -17,17 +18,20 @@ class PublicacionesController extends Controller
     {
 
         $resultados = DB::table('publicaciones')
-        ->select(
-            'usuarios.imagen_usuario as imagen_usuario',
-            'usuarios.nombre as nombre_usuario',
-            'usuarios.email as email_usuario',
-            'publicaciones.Sub_tema as sub_tema',
-            'publicaciones.fecha_publicacion as fecha_publicacion',
-            'publicaciones.imagen as imagen_publicacion',
-            'temas.nombre as nombre_tema',
-            'categorias.nombre as nombre_categoria',
-            'roles.nombre as nombre_rol'
-        )
+            ->select(
+                'publicaciones.id as id',
+                'publicaciones.titulo as titulo',
+                'publicaciones.Sub_tema as sub_tema',
+                'publicaciones.contenido as contenido',
+                'publicaciones.imagen as imagen_publicacion',
+                'publicaciones.fecha_publicacion as fecha_publicacion',
+                'categorias.nombre as nombre_categoria',
+                'temas.nombre as nombre_tema',
+                'usuarios.nombre as nombre_usuario',
+                'usuarios.email as email_usuario',
+                'usuarios.imagen_usuario as imagen_usuario',
+                'roles.nombre as nombre_rol'
+            )
             ->join('usuarios', 'publicaciones.usuario_id', '=', 'usuarios.id')
             ->join('temas', 'publicaciones.tema_id', '=', 'temas.id')
             ->join('categorias', 'publicaciones.categoria_id', '=', 'categorias.id')
@@ -53,7 +57,6 @@ class PublicacionesController extends Controller
         }
 
 
-        
         $data = $resultados->toArray();
 
         return $data;
@@ -67,7 +70,7 @@ class PublicacionesController extends Controller
         //     ];
         //     return response()->json($data, 404);
         //}
-       
+
 
         // $data = [
         //     'message' => $publicaciones,
@@ -86,29 +89,15 @@ class PublicacionesController extends Controller
             'Sub_tema' => 'required|max:255',
             'contenido' => 'required',
             'imagen' => 'required',
-            'fecha_publicacion' => 'required|date',
             'categoria_id' => 'required|integer',
             'tema_id' => 'required|integer',
             'usuario_id' => 'required|integer',
-
         ], [
-
             'titulo.required' => 'El campo título es obligatorio.',
             'titulo.max' => 'El título no debe tener más de :max caracteres.',
-            'titulo.regex' => 'El título debe comenzar con una letra mayúscula.',
-
             'Sub_tema.required' => 'El campo Sub_tema es obligatorio.',
             'Sub_tema.max' => 'El Sub_tema no debe tener más de :max caracteres.',
-            'Sub_tema.regex' => 'El Sub_tema debe comenzar con una letra mayúscula.',
-
             'contenido.required' => 'El campo contenido es obligatorio.',
-            'contenido.regex' => 'El campo contenido debe comenzar con una letra mayúscula.',
-
-
-
-
-
-
         ]);
 
         if ($validator->fails()) {
@@ -127,12 +116,14 @@ class PublicacionesController extends Controller
             $imagenUrl = 'default_user_image.jpg';
         }
 
+        $fecha_publicacion = Carbon::now(); // Obtiene la fecha actual
+
         $publicaciones = Publicaciones::create([
             'titulo' => $request->titulo,
             'Sub_tema' => $request->Sub_tema,
             'contenido' => $request->contenido,
             'imagen' => $imagenUrl,
-            'fecha_publicacion' => $request->fecha_publicacion,
+            'fecha_publicacion' => $fecha_publicacion, // Establece la fecha actual como fecha de publicación
             'categoria_id' => $request->categoria_id,
             'tema_id' => $request->tema_id,
             'usuario_id' => $request->usuario_id,
@@ -146,9 +137,7 @@ class PublicacionesController extends Controller
         return response()->json($data, 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, $id)
     {
         $publicaciones = Publicaciones::find($id);
