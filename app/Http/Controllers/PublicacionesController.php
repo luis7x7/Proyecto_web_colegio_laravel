@@ -57,7 +57,7 @@ class PublicacionesController extends Controller
         }
 
 
-        
+
 
         $data = $resultados->toArray();
 
@@ -101,12 +101,14 @@ class PublicacionesController extends Controller
                 'usuarios.nombre as nombre_usuario',
                 'usuarios.email as email_usuario',
                 'usuarios.imagen_usuario as imagen_usuario',
-                'roles.nombre as nombre_rol'
+                'roles.nombre as nombre_rol',
+
             )
             ->join('usuarios', 'publicaciones.usuario_id', '=', 'usuarios.id')
             ->join('temas', 'publicaciones.tema_id', '=', 'temas.id')
             ->join('categorias', 'publicaciones.categoria_id', '=', 'categorias.id')
             ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+
             ->where('publicaciones.id', $id)
             ->get();
 
@@ -125,14 +127,20 @@ class PublicacionesController extends Controller
         }
 
         $comentariosCount = DB::table('comentarios')
-        ->select('publicacion_id', DB::raw('COUNT(*) as total_comentarios'))
-        ->where('publicacion_id', $id)
-        ->groupBy('publicacion_id')
-        ->first();
+            ->select('publicacion_id', DB::raw('COUNT(*) as total_comentarios'))
+            ->where('publicacion_id', $id)
+            ->groupBy('publicacion_id')
+            ->first();
 
         $totalComentarios = $comentariosCount ? $comentariosCount->total_comentarios : 0;
 
-        $data = [$resultados->toArray(), $totalComentarios];
+
+
+        $data = [
+            "data" => $resultados->toArray(),
+            "total_comentario" => $totalComentarios
+
+        ];
 
         return $data;
     }
