@@ -61,27 +61,75 @@ class PublicacionesController extends Controller
 
         return $data;
 
-        // $publicaciones = Publicaciones::all();
-
-        // if ($publicaciones->isEmpty()) {
-        //     $data = [
-        //         'message' => 'No hay ninguna publicación',
-        //         'status' => 404
-        //     ];
-        //     return response()->json($data, 404);
-        //}
-
-
-        // $data = [
-        //     'message' => $publicaciones,
-        //     'status' => 200
-        // ];
-        // return response()->json($data, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function show($id)
+    {
+        $Publicaciones = Publicaciones::find($id);
+
+        if (!$Publicaciones) {
+            $data = [
+                'message' => 'Publicaciones no encontrado',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $resultados = DB::table('publicaciones')
+        ->select(
+            'publicaciones.id as id',
+            'publicaciones.titulo as titulo',
+            'publicaciones.Sub_tema as sub_tema',
+            'publicaciones.contenido as contenido',
+            'publicaciones.imagen as imagen_publicacion',
+            'publicaciones.fecha_publicacion as fecha_publicacion',
+            'categorias.nombre as nombre_categoria',
+            'temas.nombre as nombre_tema',
+            'usuarios.nombre as nombre_usuario',
+            'usuarios.email as email_usuario',
+            'usuarios.imagen_usuario as imagen_usuario',
+            'roles.nombre as nombre_rol'
+        )
+        ->join('usuarios', 'publicaciones.usuario_id', '=', 'usuarios.id')
+        ->join('temas', 'publicaciones.tema_id', '=', 'temas.id')
+        ->join('categorias', 'publicaciones.categoria_id', '=', 'categorias.id')
+        ->join('roles', 'usuarios.rol_id', '=', 'roles.id')
+        ->where('publicaciones.id', $id)
+        ->get();
+
+        foreach ($resultados as $publicacion) {
+            if ($publicacion->imagen_publicacion) {
+                $publicacion->imagen_publicacion = asset('storage/images/publicaciones/' . $publicacion->imagen_publicacion);
+            } else {
+                $publicacion->imagen_publicacion = asset('storage/default_publicacion_image.jpg');
+            }
+
+            if ($publicacion->imagen_usuario) {
+                $publicacion->imagen_usuario = asset('storage/images/usuarios/' . $publicacion->imagen_usuario);
+            } else {
+                $publicacion->imagen_usuario = asset('storage/default_user_image.jpg');
+            }
+        }
+
+        $data = $resultados->toArray();
+
+        return $data;
+
+
+
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

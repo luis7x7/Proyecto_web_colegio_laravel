@@ -50,7 +50,11 @@ Route::get('/publicaciones', [PublicacionesController::class, 'index']);
 
 Route::get('/publicaciones/{id}', [PublicacionesController::class, 'show']);
 
+Route::post('/publicaciones', [PublicacionesController::class, 'store']);
 
+Route::put('/publicaciones/{id}', [PublicacionesController::class, 'update']);
+
+Route::delete('/publicaciones/{id}', [PublicacionesController::class, 'destroy']);
 
 
 // comentario
@@ -126,11 +130,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
      //publicaciones
-     Route::post('/publicaciones', [PublicacionesController::class, 'store']);
-
-     Route::put('/publicaciones/{id}', [PublicacionesController::class, 'update']);
-
-     Route::delete('/publicaciones/{id}', [PublicacionesController::class, 'destroy']);
+     
 
      Route::patch('/publicaciones/{id}', [PublicacionesController::class, 'updatepartial']);
 
