@@ -29,6 +29,7 @@ class PublicacionesController extends Controller
                 'temas.nombre as nombre_tema',
                 'usuarios.nombre as nombre_usuario',
                 'usuarios.email as email_usuario',
+            'usuarios.id as id_usuaio',
                 'usuarios.imagen_usuario as imagen_usuario',
                 'roles.nombre as nombre_rol'
             )
@@ -75,15 +76,6 @@ class PublicacionesController extends Controller
             ];
             return response()->json($data, 404);
         }
-
-
-
-
-
-
-
-
-
 
 
 

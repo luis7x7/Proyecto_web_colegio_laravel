@@ -6,6 +6,7 @@ use App\Models\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -47,6 +48,8 @@ class UsuariosController extends Controller
     {
         $Usuario = Usuarios::find($id);
 
+
+
         if (!$Usuario) {
             $data = [
                 'message' => 'usuario no encontrado',
@@ -65,7 +68,7 @@ class UsuariosController extends Controller
 
     public function show_user_email($email)
     {
-        $Usuario = Usuarios::where('email', $email)->first();
+        $Usuario = Usuarios::where('email', $email)->get();
 
         if (!$Usuario) {
             $data = [
@@ -75,13 +78,38 @@ class UsuariosController extends Controller
             return response()->json($data, 404);
         }
 
-        $data = [
-            'message' => $Usuario,
+        $resultado = DB::table('usuarios')->select(
+
+            'usuarios.id as id',
+            'usuarios.nombre as nombre',
+            'usuarios.email as email',
+            'usuarios.imagen_usuario as imagen_usuario',
+            'roles.nombre as nombre_rol',
+        )->join('roles', 'usuarios.rol_id', '=', 'roles.id')->where('usuarios.email', $email)
+            ->get();
+
+
+
+        foreach ($resultado as $img_user) {
+
+            if ($img_user->imagen_usuario) {
+                $img_user->imagen_usuario = asset('storage/images/usuarios/' . $img_user->imagen_usuario);
+            } else {
+                $img_user->imagen_usuario = asset('storage/default_user_image.jpg');
+            }
+        }
+
+
+
+        $data_user = [
+            'data_user' => $resultado->toArray(),
             'status' => 200
         ];
-        return response()->json($data, 200);
+        return response()->json($data_user, 200);
     }
-    
+
+
+
     public function update(Request $request, $id)
     {
         $usuarios = Usuarios::find($id);

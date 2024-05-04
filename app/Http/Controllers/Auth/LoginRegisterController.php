@@ -84,9 +84,10 @@ class LoginRegisterController extends Controller
 
 
         if (!password_verify($request->password, $user->password)) {
-            return response()->json([
+            return response()->json($response = [
                 'status' => 'failed',
-                'message' => 'Credenciales Invalidas',
+                'message' => 'credenciales invalidas',
+
             ], 401);
         }
 

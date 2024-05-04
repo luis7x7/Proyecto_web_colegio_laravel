@@ -36,10 +36,60 @@ class ComentariosController extends Controller
         return response()->json($data, 200);
     }
 
+
+    public function index_by_id($id_publicacion)
+    {
+
+        $comentarios = DB::table('comentarios')
+            ->select(
+
+                'comentarios.id as id_comentario',
+                'usuarios.nombre as nombre_usuario',
+                'usuarios.imagen_usuario as imagen_usuario',
+                'usuarios.email as email_usuario',
+                'comentarios.fecha_comentario as fecha_comentario',
+                'comentarios.contenido as contenido',
+                'usuarios.id as usuario_id',
+            )
+            ->join('usuarios', 'comentarios.usuario_id', '=', 'usuarios.id')
+            ->join('publicaciones', 'comentarios.publicacion_id', '=', 'publicaciones.id')
+            ->where('publicaciones.id', $id_publicacion) // Filtra los comentarios por el ID de la publicación
+            ->get();
+
+
+        foreach ($comentarios as $coment) {
+
+
+            if ($coment->imagen_usuario) {
+                $coment->imagen_usuario = asset('storage/images/usuarios/' . $coment->imagen_usuario);
+            } else {
+                $coment->imagen_usuario = asset('storage/default_user_image.jpg');
+            }
+        }
+
+        if (!$comentarios) {
+            $data = [
+                'message' => 'no hay comentarios en la publicacion',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+
+
+        $data = [
+            'message' => 'Listado de comentarios por id',
+            'status' => 200,
+            'comentarios' => $comentarios
+        ];
+
+        return response()->json($data, 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store_coment(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'contenido' => ['required', 'regex:/^[A-Z]/'],
@@ -60,18 +110,21 @@ class ComentariosController extends Controller
             return response()->json($data, 400);
         }
 
-        $fecha_comentario = Carbon::now(); // Obtener la fecha y hora actuales
 
-        $comentarioData = [
-            'contenido' => $request->contenido,
-            'fecha_comentario' => $fecha_comentario, // Establecer la fecha y hora actuales como fecha de comentario
-            'usuario_id' => $request->usuario_id,
-            'publicacion_id' => $request->publicacion_id,
-            'comentario_padre_id' => $request->comentario_padre_id // Guardar el ID del comentario padre
-        ];
+        $fecha_publicacion = Carbon::now();
 
-        // Crear el comentario
-        $comentario = Comentarios::create($comentarioData);
+        $comentario = Comentarios::create(
+
+            [
+                'contenido' => $request->contenido,
+                'fecha_comentario' => $fecha_publicacion, // 
+                'usuario_id' => $request->usuario_id,
+                'publicacion_id' => $request->publicacion_id,
+                'comentario_padre_id' => $request->comentario_padre_id // 
+            ]
+        );
+
+
 
         $data = [
             'message' => 'Comentario creado exitosamente',

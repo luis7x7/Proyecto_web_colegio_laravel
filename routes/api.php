@@ -60,11 +60,9 @@ Route::delete('/publicaciones/{id}', [PublicacionesController::class, 'destroy']
 // comentario
 Route::get('/comentarios', [ComentariosController::class, 'index']);
 
-Route::get('/comentarios/{id}', [ComentariosController::class, 'show']);
+Route::get('/comentarios/{id_publicacion}', [ComentariosController::class, 'index_by_id']);
 
-
-
-
+Route::post('/comentarios', [ComentariosController::class, 'store_coment']);
 
 //user validacion login
 
@@ -138,11 +136,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
      //comentarios
 
-     Route::post('/comentarios', [ComentariosController::class, 'store']);
+     
 
      Route::put('/comentarios/{id}', [ComentariosController::class, 'update']);
 
      Route::delete('/comentarios/{id}', [ComentariosController::class, 'destroy']);
 
      Route::patch('/comentarios/{id}', [ComentariosController::class, 'updatepartial']);
+
+
 });
